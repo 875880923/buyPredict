@@ -1,14 +1,15 @@
-import pyMsSQL as dB
+import pymysql as dB
+from evaluate import connect
 
 
-con = None
-try:
-    con = dB.connect('localhost', 'root',
-                      'root', 'test')
-    cur = con.cursor()
+def cal_auc():
+    cur = connect.cursor()
     cur.execute("SELECT VERSION()")
     data = cur.fetchone()
     print("Database version : %s " % data)
-finally:
-    if con:
-        con.close()
+
+if __name__ == '__main__':
+    cal_auc()
+    if connect:
+        connect.close()
+
