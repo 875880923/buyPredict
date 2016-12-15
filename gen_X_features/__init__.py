@@ -1,8 +1,5 @@
-fromDateTrain = '20160511'
-toDateTrain = '20161111'
+fromDate = '20150511'
+toDate = '20151111'
 
-fromDateTest = '20160511'
-toDateTest = '20161111'
-
-fromDateSubmit = '20160511'
-toDateSubmit = '20161111'
+fromDateTest = '20150511'
+toDateTest = '20150611'
