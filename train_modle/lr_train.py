@@ -1,10 +1,10 @@
 from evaluate import connect
 from train_modle import testDataCount
 from gen_X_features.gen_all_features import all_features_table_name, all_features_prediction_table_name
-import numpy as np
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn import metrics
+import pylab as pl
 
 
 def get_data(table_name):
@@ -52,6 +52,14 @@ if __name__ == '__main__':
         test_result = pd.DataFrame(test_data[:, 0:3], columns=['user_id', 'merchant_id', 'label'], dtype=int)
         test_result['prob'] = prob
         print(test_result)
+
+        fpr, tpr, thre = metrics.roc_curve(label, prob, pos_label=1)
+
+        pl.title("ROC curve of %s (AUC = %.4f)" % ('svm', 1))
+        pl.xlabel("False Positive Rate")
+        pl.ylabel("True Positive Rate")
+        pl.plot(fpr, tpr)# use pylab to plot x and y
+        pl.show()# show the plot on the screen
 
         # predict(model)
 
