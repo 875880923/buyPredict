@@ -47,9 +47,6 @@ if __name__ == '__main__':
         result = model.predict_proba(x_features_test)
 
         prob = result[:, 1:2]
-        prob[1] = 0.5
-        print(label)
-        print(prob)
         print(metrics.roc_auc_score(label, prob))
 
         test_result = pd.DataFrame(test_data[:, 0:3], columns=['user_id', 'merchant_id', 'label'], dtype=int)
