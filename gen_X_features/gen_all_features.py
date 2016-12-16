@@ -29,8 +29,12 @@ def gen(train_table=None, tables=None, column_condition=None, table_name=None):
 if __name__ == '__main__':
     table_dic = {
         'user_repeat_buy_same_item': ['user_id', 'count'],
-        'user_repeat_buy_same_merchant': ['user_id', 'count'],
-        'user_add_favourite_merchant': ['user_id', 'merchant_id', 'count']
+        'user_add_favourite_merchant': ['user_id', 'merchant_id', 'count'],
+        'user_repeat_buy_same_brand_merchant': ['user_id', 'count'],
+        'merchant_sell_repeat_item': ['merchant_id', 'count'],
     }
+    """
+    'user_repeat_buy_same_merchant': ['user_id', 'count'],
+    """
     print(gen('train_and_test_data', table_dic, ['user_id', 'merchant_id'], all_features_table_name))
     print(gen('prediction', table_dic, ['user_id', 'merchant_id'], all_features_prediction_table_name))

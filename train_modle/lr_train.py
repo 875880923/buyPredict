@@ -4,7 +4,7 @@ from gen_X_features.gen_all_features import all_features_table_name, all_feature
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn import metrics
-import pylab as pl
+import time
 
 
 def get_data(table_name):
@@ -34,6 +34,8 @@ def predict(model):
 
 if __name__ == '__main__':
     try:
+        localtime = time.asctime( time.localtime(time.time()) )
+        print("start :", localtime)
         data = get_data(all_features_table_name)
         test_data = data[:testDataCount, :]
         train_data = data[testDataCount+1:, :]
@@ -42,26 +44,27 @@ if __name__ == '__main__':
         X_features = train_data[:, 4:]
         model = lr_fit(X_features, y.ravel())
 
+        localtime = time.asctime( time.localtime(time.time()) )
+        print("fit complete :", localtime)
+
         label = test_data[:, 2:3]
         x_features_test = test_data[:, 4:]
+        print(pd.DataFrame(x_features_test))
         result = model.predict_proba(x_features_test)
 
+        localtime = time.asctime( time.localtime(time.time()) )
+        print("predict complete :", localtime)
+
         prob = result[:, 1:2]
-        print(metrics.roc_auc_score(label, prob))
+        auc = metrics.roc_auc_score(label, prob)
+        print(auc)
 
         test_result = pd.DataFrame(test_data[:, 0:3], columns=['user_id', 'merchant_id', 'label'], dtype=int)
         test_result['prob'] = prob
         print(test_result)
 
-        fpr, tpr, thre = metrics.roc_curve(label, prob, pos_label=1)
+        #predict(model)
 
-        pl.title("ROC curve of %s (AUC = %.4f)" % ('svm', 1))
-        pl.xlabel("False Positive Rate")
-        pl.ylabel("True Positive Rate")
-        pl.plot(fpr, tpr)# use pylab to plot x and y
-        pl.show()# show the plot on the screen
-
-        # predict(model)
 
     finally:
         if connect:
