@@ -32,7 +32,7 @@ def predict(model):
     prediction['prob'] = prob
     prediction.to_csv("E:/data/prediction.csv", index=False)
 
-if __name__ == '__main__':
+def run():
     try:
         localtime = time.asctime( time.localtime(time.time()) )
         print("start :", localtime)
@@ -65,7 +65,9 @@ if __name__ == '__main__':
 
         #predict(model)
 
-
     finally:
         if connect:
             connect.close()
+
+if __name__ == '__main__':
+    run()
