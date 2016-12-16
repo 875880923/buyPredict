@@ -32,39 +32,33 @@ def predict(model):
     prediction['prob'] = prob
     prediction.to_csv("E:/data/prediction.csv", index=False)
 
+
 def run():
     try:
-        localtime = time.asctime( time.localtime(time.time()) )
-        print("start :", localtime)
+        start = time.clock()
+
         data = get_data(all_features_table_name)
         test_data = data[:testDataCount, :]
         train_data = data[testDataCount+1:, :]
 
         y = train_data[:, 2:3]
-        X_features = train_data[:, 4:]
-        model = lr_fit(X_features, y.ravel())
-
-        localtime = time.asctime( time.localtime(time.time()) )
-        print("fit complete :", localtime)
+        x_features = train_data[:, 4:]
+        model = lr_fit(x_features, y.ravel())
 
         label = test_data[:, 2:3]
         x_features_test = test_data[:, 4:]
-        print(pd.DataFrame(x_features_test))
         result = model.predict_proba(x_features_test)
-
-        localtime = time.asctime( time.localtime(time.time()) )
-        print("predict complete :", localtime)
 
         prob = result[:, 1:2]
         auc = metrics.roc_auc_score(label, prob)
-        print(auc)
+        print("AUC :", auc)
 
-        test_result = pd.DataFrame(test_data[:, 0:3], columns=['user_id', 'merchant_id', 'label'], dtype=int)
-        test_result['prob'] = prob
-        print(test_result)
+        print("TotalTime : %.03f seconds" % (time.clock()-start))
+        # test_result = pd.DataFrame(test_data[:, 0:3], columns=['user_id', 'merchant_id', 'label'], dtype=int)
+        # test_result['prob'] = prob
+        # print(test_result)
 
-        #predict(model)
-
+        # predict(model)
     finally:
         if connect:
             connect.close()
