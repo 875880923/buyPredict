@@ -1,4 +1,4 @@
-from evaluate import connect
+from train_modle import connect
 from train_modle import testDataCount
 from gen_X_features.gen_all_features import all_features_table_name, all_features_prediction_table_name
 import pandas as pd
